@@ -1,0 +1,15 @@
+{
+    "port": ":8080",
+    "enableGinConsoleLog": true,
+    "enableGinFileLog": false,
+
+    "logFilename": "logs/server.log",
+    "logMaxSize": 10,
+    "logMaxBackups": 10,
+    "logMaxAge": 30,
+
+    "dbAddrs": "127.0.0.1:27017",
+    "dbName": "cortify-caas-api",
+    "dbUser": "",
+    "dbPwd": ""
+}

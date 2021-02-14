@@ -1,0 +1,2 @@
+{"level":"debug","msg":"[ERROR]: E11000 duplicate key error collection: cortify-caas-api.services index: _id_ dup key: { _id: \"tenant-service-tenant-service\" }","time":"2021-02-14T18:54:13+01:00"}
+{"level":"debug","msg":"[ERROR]: E11000 duplicate key error collection: cortify-caas-api.services index: _id_ dup key: { _id: \"tenant-service-tenant-service\" }","time":"2021-02-14T18:55:54+01:00"}
