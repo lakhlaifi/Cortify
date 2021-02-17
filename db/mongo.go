@@ -14,6 +14,7 @@ type DataStruct struct {
 	DatabaseName string
 }
 
+// TODO Manage Multitenancy in Database
 // Init Initializes a mongo database
 func (db *DataStruct) Init() error {
 	db.DatabaseName = common.Config.DBName

@@ -39,7 +39,7 @@ func (s *Service) GetByID(id string) (models.Service, error) {
 	return service, err
 }
 
-// Insert ConfigMap
+// Insert Service
 func (s *Service) Insert(service models.Service) error {
 	sessionCopy := db.Database.Session.Copy()
 	defer sessionCopy.Close()

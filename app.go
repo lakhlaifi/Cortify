@@ -58,22 +58,16 @@ func main() {
 	defer db.Database.Close()
 	m.router.Use(cors.Default())
 
-	// Define controller for ConfigMap
+	// Define controller for Services
 	c := controllers.Service{}
 	// Version API
 	v1 := m.router.Group("/api/v1")
 	{
-		//ConfigMap
-		// Add new Config
+		//Services
+		// Add new KSVC
 		v1.POST("/service", c.AddService)
-		// List all Drugs
-		// v1.GET("/config", c.ListDrugs)
-		// Get One ConfigMap
+		// Get One KSVC
 		v1.GET("/service/:_id", c.GetService)
-		// Update drug
-		// v1.PATCH("/config", c.UpdateDrug)
-		// // Delete drug
-		// v1.DELETE("/config/:_id", c.DeleteDrug)
 	}
 	m.router.NoRoute(func(c *gin.Context) {
 		// In Gin Response are

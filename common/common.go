@@ -20,16 +20,11 @@ type Configuration struct {
 	LogMaxBackups int    `json:"logMaxBackups"`
 	LogMaxAge     int    `json:"logMaxAge"`
 
-	// Database
+	// DB
 	DBAddrs string `json:"dbAddrs"`
 	DBName  string `json:"dbName"`
 	DBUser  string `json:"dbUser"`
 	DBPwd   string `json:"dbPwd"`
-
-	// Tokens
-	// AuthAddr  string `json:"authAddr"`
-	// JWTSecret string `json:"jwtSecret"`
-	// Isuser    string `json:"isuser"`
 }
 
 // Config share global config
