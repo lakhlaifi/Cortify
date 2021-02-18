@@ -38,12 +38,15 @@ func (s *Service) GetService(ctx *gin.Context) {
 	//name := ctx.Request.URL.Query()["name"][0]
 	id := ctx.Param("_id")
 	service, err = s.serviceDAO.GetByID(id)
+	svc, err := dao.ConstructService("hello", "default", service)
 
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, models.Error{common.StatusCodeUnknown, err.Error()})
 		log.Debug("[ERROR]: ", err)
 	} else {
 		ctx.JSON(http.StatusOK, service)
+		ctx.JSON(http.StatusOK, "Knative Service")
+		ctx.JSON(http.StatusOK, svc)
 	}
 }
 
