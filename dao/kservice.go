@@ -6,7 +6,6 @@ import (
 	"errors"
 
 	"gopkg.in/mgo.v2/bson"
-	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	servingv1 "knative.dev/serving/pkg/apis/serving/v1"
 )
@@ -16,6 +15,9 @@ type Service struct{}
 
 // COLLECTION of the database
 const SERVICE_COLLECTION = "services"
+
+//Kubeconfig file test
+var kubeconfig *string
 
 // GetAll Function retreive all objects
 func (s *Service) GetAll() ([]models.Service, error) {
@@ -54,31 +56,23 @@ func (s *Service) Insert(service models.Service) error {
 	return err
 }
 
-// Construct Service
-func ConstructService(name string, namespace string, svc models.Service) (*servingv1.Service, error) {
+// Construct go Service
+func ConstructService(name string, namespace string, ksvc models.Service) (*servingv1.Service, error) {
 	if name == "" || namespace == "" {
 		return nil, errors.New("internal: no name or namespace provided when constructing a service")
 	}
 	service := servingv1.Service{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      svc.KService.Metadata.Name,
+			Name:      ksvc.KService.Metadata.Name,
 			Namespace: namespace,
 		},
 	}
-
 	service.Spec.Template = servingv1.RevisionTemplateSpec{
 		Spec: servingv1.RevisionSpec{},
 		ObjectMeta: metav1.ObjectMeta{
-			Annotations: map[string]string{
-				"foo": "bar",
-			},
+			Annotations: ksvc.KService.Metadata.Annotations,
 		},
 	}
-	service.Spec.Template.Spec.Containers = []corev1.Container{
-		{
-			Name:  svc.KService.Specs.Containers[0].Name,
-			Image: svc.KService.Specs.Containers[0].Image,
-		},
-	}
+	service.Spec.Template.Spec.Containers = ksvc.KService.Specs.Containers
 	return &service, nil
 }

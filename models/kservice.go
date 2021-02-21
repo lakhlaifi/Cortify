@@ -2,6 +2,8 @@ package models
 
 import (
 	"time"
+
+	corev1 "k8s.io/api/core/v1"
 )
 
 type Service struct {
@@ -11,52 +13,38 @@ type Service struct {
 	UpdatedAt time.Time      `json:"updated_at"`
 }
 type KnativeService struct {
-	Base     KnativeServiceBase    `json:"base,omitempty" bson:"base,omitempty"`
-	Metadata KnativeServiceMeta    `json:"metadata,omitempty" bson:"metadata,omitempty"`
-	Specs    KnativeServiceSpecs   `json:"specs,omitempty" bson:"specs,omitempty"`
-	Traffic  KnativeServiceTraffic `json:"traffic,omitempty" bson:"traffic,omitempty"`
-	Config   ConfigMap             `json:"config,omitempty" bson:"config,omitempty"`
+	Metadata KnativeServiceMeta  `json:"metadata,omitempty" bson:"metadata,omitempty"`
+	Specs    KnativeServiceSpecs `json:"specs,omitempty" bson:"specs,omitempty"`
+	// Traffic  KnativeServiceTraffic `json:"traffic,omitempty" bson:"traffic,omitempty"`
 	// KnativeServiceContainers
 	// KnativeServiceVolumes
 }
 
-type KnativeServiceBase struct {
-	ApiVersion string `default:"serving.knative.dev/v1" json:"apiVersion,omitempty" bson:"apiVersion,omitempty"`
-	Kind       string `default:"Service" json:"kind,omitempty" bson:"kind,omitempty"`
-}
-
 type KnativeServiceMeta struct {
-	Name        string   `json:"name,omitempty" bson:"name,omitempty"`
-	Namespace   string   `json:"namespace,omitempty" bson:"namespace,omitempty"`
-	Labels      []string `json:"labels,omitempty" bson:"labels,omitempty"`
-	Annotations []string `json:"annotations,omitempty" bson:"annotations,omitempty"`
+	Name        string            `json:"name,omitempty" bson:"name,omitempty"`
+	Namespace   string            `json:"namespace,omitempty" bson:"namespace,omitempty"`
+	Labels      map[string]string `json:"labels,omitempty" bson:"labels,omitempty"`
+	Annotations map[string]string `json:"annotations,omitempty" bson:"annotations,omitempty"`
 }
 
 type KnativeServiceSpecs struct {
-	Replicas int `default:"1" json:"replicas,omitempty" bson:"replicas,omitempty"`
+	Replicas       int                `default:"1" json:"replicas,omitempty" bson:"replicas,omitempty"`
+	InitContainers []corev1.Container `json:"initcontainers" bson:"initcontainers,omitempty"`
+	Containers     []corev1.Container `json:"containers" bson:"containers,omitempty"`
+	Volumes        []corev1.Volume    `json:"volumes" bson:"volumes,omitempty"`
 	// Selectors      []string                       `json:"selectors,omitempty" bson:"selectors,omitempty"`
-	InitContainers []KnativeServiceinitContainers `json:"initcontainers" bson:"initcontainers,omitempty"`
-	Containers     []KnativeServiceContainers     `json:"containers" bson:"containers,omitempty"`
 }
 
-type KnativeServiceTraffic struct {
-	//TODO
+type VolumeSources struct {
+	ConfigMap             corev1.ConfigMapVolumeSource             `json:"volconfigmap" bson:"volconfigmap,omitempty"`
+	Secret                corev1.SecretVolumeSource                `json:"volsecret" bson:"volsecret,omitempty"`
+	EmptyDir              corev1.EmptyDirVolumeSource              `json:"volemptydir" bson:"volemptydir,omitempty"`
+	PersistentVolumeClaim corev1.PersistentVolumeClaimVolumeSource `json:"volpvc" bson:"volpvc,omitempty"`
+	//EphemeralVolumeSource
+	//GitRepoVolumeSource
+	//NFSVolumeSource
 }
 
-type KnativeServiceContainers struct {
-	Name  string   `json:"name,omitempty" bson:"name,omitempty"`
-	Image string   `json:"image,omitempty" bson:"image,omitempty"`
-	Envs  []string `json:"envs,omitempty" bson:"envs,omitempty"`
-	// containerPorts  TODO
-}
-
-type KnativeServiceinitContainers struct {
-	Name  string   `json:"name,omitempty" bson:"name,omitempty"`
-	Image string   `json:"image,omitempty" bson:"image,omitempty"`
-	Envs  []string `json:"envs,omitempty" bson:"envs,omitempty"`
-	// containerPorts  TODO
-}
-
-type KnativeServiceVolumes struct {
-	//TODO
-}
+// type KnativeServiceTraffic struct {
+// 	//TODO
+// }
