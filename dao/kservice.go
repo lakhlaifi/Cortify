@@ -16,9 +16,6 @@ type Service struct{}
 // COLLECTION of the database
 const SERVICE_COLLECTION = "services"
 
-//Kubeconfig file test
-var kubeconfig *string
-
 // GetAll Function retreive all objects
 func (s *Service) GetAll() ([]models.Service, error) {
 	sessionCopy := db.Database.Session.Copy()
@@ -56,7 +53,7 @@ func (s *Service) Insert(service models.Service) error {
 	return err
 }
 
-// Construct go Service
+// Construct Knative Service
 func ConstructService(name string, namespace string, ksvc models.Service) (*servingv1.Service, error) {
 	if name == "" || namespace == "" {
 		return nil, errors.New("internal: no name or namespace provided when constructing a service")
@@ -65,14 +62,32 @@ func ConstructService(name string, namespace string, ksvc models.Service) (*serv
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      ksvc.KService.Metadata.Name,
 			Namespace: namespace,
+			// Used to construct Domain Name per tenant
+			Annotations: map[string]string{
+				"tenant":        "foo",
+				"environnement": "bar",
+			},
 		},
 	}
 	service.Spec.Template = servingv1.RevisionTemplateSpec{
 		Spec: servingv1.RevisionSpec{},
 		ObjectMeta: metav1.ObjectMeta{
+			//Annotations per revision
 			Annotations: ksvc.KService.Metadata.Annotations,
 		},
 	}
 	service.Spec.Template.Spec.Containers = ksvc.KService.Specs.Containers
 	return &service, nil
+}
+
+func CreateService(namespace string, service *servingv1.Service) error {
+	client, err := NewServingClient(namespace)
+	if err != nil {
+		panic(err.Error())
+	}
+	err = client.CreateService(service)
+	if err != nil {
+		return err
+	}
+	return err
 }
