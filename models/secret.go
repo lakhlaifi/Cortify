@@ -1,1 +1,3 @@
-// Manage Secret and Encryption 
+package models
+
+// Manage Secret and Encryption

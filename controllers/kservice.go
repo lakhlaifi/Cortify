@@ -44,10 +44,12 @@ func (s *Service) GetService(ctx *gin.Context) {
 		log.Debug("[ERROR]: ", err)
 	} else {
 		ctx.JSON(http.StatusOK, service)
+		ctx.JSON(http.StatusOK, "Knative Service : ")
+		// ctx.JSON(http.StatusOK, svc)
 	}
 }
 
-// AddService function
+// AddService function (Deploy)
 func (s *Service) AddService(ctx *gin.Context) {
 
 	// Define Data Model
@@ -58,19 +60,44 @@ func (s *Service) AddService(ctx *gin.Context) {
 	}
 	// Init Default Values
 	service.ID = service.KService.Metadata.Name + "-" + service.KService.Metadata.Namespace + "-service"
-	service.KService.Base.ApiVersion = "serving.knative.dev/v1"
-	service.KService.Base.Kind = "Service"
-	if service.KService.Specs.Replicas == 0 {
-		service.KService.Specs.Replicas = 1
-	}
 	service.CreatedAt = time.Now()
 	service.UpdatedAt = time.Now()
 
-	err := s.serviceDAO.Insert(service)
+	//Construction
+	// Construct Knative Service
+	ksvc, err := dao.ConstructService(service.KService.Metadata.Name, service.KService.Metadata.Namespace, service)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, models.Message{"Knative Service Cannot be constructed."})
+		return
+	}
+	cm, err := dao.ConstructConfigMap(service.KService.Metadata.Name, service.KService.Metadata.Namespace, service)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, models.Message{"ConfigMap Cannot be constructed."})
+		return
+	}
+	ctx.JSON(http.StatusOK, models.Message{"construction done."})
+
+	// Create Knative Service
+	err = dao.CreateService(service.KService.Metadata.Namespace, ksvc)
+
+	//Create CM and Secrets
 	if err == nil {
-		ctx.JSON(http.StatusOK, models.Message{"Service created Successfully"})
+		err = dao.CreateConfigMap(service.KService.Metadata.Namespace, cm)
+		if err == nil {
+			err := s.serviceDAO.Insert(service)
+			if err != nil {
+				ctx.JSON(http.StatusForbidden, models.Error{common.StatusCodeUnknown, err.Error()})
+				log.Debug("[ERROR]: DB - ", err)
+			}
+			ctx.JSON(http.StatusOK, models.Message{"ConfigMap created Successfully"})
+		} else {
+			ctx.JSON(http.StatusBadRequest, models.Message{"Failed to create ConfigMap."})
+			log.Debug("[ERROR]: ConfigMap -  ", err)
+		}
+		ctx.JSON(http.StatusOK, models.Message{"Knative  Service created Successfully"})
 	} else {
 		ctx.JSON(http.StatusForbidden, models.Error{common.StatusCodeUnknown, err.Error()})
-		log.Debug("[ERROR]: ", err)
+		log.Debug("[ERROR]: Knative Service - ", err)
+
 	}
 }

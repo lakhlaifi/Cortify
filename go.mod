@@ -3,20 +3,29 @@ module cortify
 go 1.15
 
 require (
-	cloud.google.com/go v0.54.0 // indirect
-	github.com/Azure/go-autorest/autorest v0.11.1 // indirect
-	github.com/Azure/go-autorest/autorest/adal v0.9.5 // indirect
+	github.com/buildpacks/pack v0.14.0
 	github.com/gin-contrib/cors v1.3.1 // indirect
 	github.com/gin-gonic/gin v1.6.3
-	github.com/gregjones/httpcache v0.0.0-20180305231024-9cad4c3443a7 // indirect
-	github.com/imdario/mergo v0.3.11 // indirect
+	github.com/go-delve/delve v1.6.0 // indirect
+	github.com/markbates/pkger v0.17.1
+	github.com/mitchellh/go-homedir v1.1.0
 	github.com/natefinch/lumberjack v2.0.0+incompatible
-	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
-	github.com/sirupsen/logrus v1.7.0
-	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324 // indirect
+	github.com/ory/viper v1.7.4
+	github.com/sirupsen/logrus v1.6.0
+	github.com/spf13/cobra v1.0.1-0.20201006035406-b97b5ead31f7
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
-	k8s.io/api v0.20.2 // indirect
-	k8s.io/client-go v11.0.0+incompatible // indirect
-	k8s.io/klog v1.0.0 // indirect
-	k8s.io/utils v0.0.0-20210111153108-fddb29f9d009 // indirect
+	gopkg.in/yaml.v2 v2.3.0
+	k8s.io/api v0.18.8
+	k8s.io/apimachinery v0.19.1
+	k8s.io/client-go v11.0.1-0.20190805182717-6502b5e7b1b5+incompatible
+	knative.dev/client v0.19.1
+	knative.dev/eventing v0.19.0
+	knative.dev/pkg v0.0.0-20201103163404-5514ab0c1fdf
+	knative.dev/serving v0.19.0
+)
+
+replace (
+	// Nail down k8 deps to align with transisitive deps
+	k8s.io/apimachinery => k8s.io/apimachinery v0.18.8
+	k8s.io/client-go => k8s.io/client-go v0.18.8
 )
