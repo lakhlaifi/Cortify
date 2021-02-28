@@ -24,6 +24,7 @@ func ConstructService(svc models.Service) (*servingv1.Service, error) {
 			Annotations: svc.KService.Config.Annotations,
 		},
 	}
+
 	service.Spec.Template.Spec.Containers = svc.KService.Specs.Containers
 	return &service, nil
 }

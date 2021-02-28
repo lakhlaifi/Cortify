@@ -11,14 +11,13 @@ import (
 )
 
 //Handle CM per containerScope
-func ConstructConfigMap(svc models.Service) (*[]corev1.ConfigMap, error) {
-	var configmaps []corev1.ConfigMap
-	for i, k := range svc.KService.Specs.Containers {
-		configmaps[i] = corev1.ConfigMap{
-			TypeMeta:   metav1.TypeMeta{},
-			ObjectMeta: metav1.ObjectMeta{Name: svc.Name + "-" + k.Name, Namespace: svc.Namespace},
-			Data:       svc.ConfigMap[i].Data,
-		}
+func ConstructConfigMap(svc models.Service) (*corev1.ConfigMap, error) {
+	// var configmaps []corev1.ConfigMap
+	// for i, k := range svc.KService.Specs.Containers {
+	configmaps := corev1.ConfigMap{
+		TypeMeta:   metav1.TypeMeta{},
+		ObjectMeta: metav1.ObjectMeta{Name: svc.Name, Namespace: svc.Namespace},
+		Data:       svc.ConfigMap.Data,
 	}
 
 	return &configmaps, nil
