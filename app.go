@@ -65,9 +65,9 @@ func main() {
 	{
 		//Services
 		// Add new KSVC
-		v1.POST("/service", c.AddService)
+		v1.POST("/service", c.CreateService)
 		// Get One KSVC
-		v1.GET("/service/:_id", c.GetService)
+		// v1.GET("/service/:_id", c.GetService)
 	}
 	m.router.NoRoute(func(c *gin.Context) {
 		// In Gin Response are
