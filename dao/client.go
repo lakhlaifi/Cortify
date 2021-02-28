@@ -10,7 +10,7 @@ import (
 )
 
 //Kubeconfig file test
-var kubeconfig = "/root/DevOps-Cegedim/persona/Cortify/kubeconfig"
+var kubeconfig = "../kubeconfig"
 
 func NewServingClient(namespace string) (clientservingv1.KnServingClient, error) {
 	// TODO remove it when U configured in cluster client
