@@ -52,6 +52,7 @@ Features :
 
             3- Connections:   
                 Database Connections
+                OAuth As a service
 
     # Configure how this service is triggered:
         Ingress:
