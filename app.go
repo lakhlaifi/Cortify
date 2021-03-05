@@ -59,13 +59,16 @@ func main() {
 	m.router.Use(cors.Default())
 
 	// Define controller for Services
-	c := controllers.Service{}
+	s := controllers.Service{}
+	e := controllers.Environment{}
 	// Version API
 	v1 := m.router.Group("/api/v1")
 	{
 		//Services
 		// Add new KSVC
-		v1.POST("/service", c.CreateService)
+		v1.POST("/service", s.CreateService)
+		v1.POST("/environment", e.CreateEnvironment)
+
 		// Get One KSVC
 		// v1.GET("/service/:_id", c.GetService)
 	}

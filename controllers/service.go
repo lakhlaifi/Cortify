@@ -10,6 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+//Database integration not used for now
 type Service struct {
 	serviceDAO dao.Service
 }
