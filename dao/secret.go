@@ -13,6 +13,7 @@ import (
 func ConstructSecret(svc models.Service) (*corev1.Secret, error) {
 	secret := corev1.Secret{
 		ObjectMeta: metav1.ObjectMeta{Name: svc.Name, Namespace: svc.Namespace},
+		Data:       svc.Secret.Data,
 	}
 	return &secret, nil
 }

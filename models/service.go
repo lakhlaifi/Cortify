@@ -7,14 +7,14 @@ import (
 )
 
 type Service struct {
-	ID        string             `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string             `json:"name,omitempty" bson:"name,omitempty"`
-	Namespace string             `json:"namespace,omitempty" bson:"namespace,omitempty"`
-	KService  KnativeService     `json:"kservice,omitempty" bson:"kservice,omitempty"`
-	ConfigMap []corev1.ConfigMap `json:"configmap,omitempty" bson:"configmap,omitempty"`
-	Secret    []corev1.Secret    `json:"secret,omitempty" bson:"secret,omitempty"`
-	CreatedAt time.Time          `json:"created_at"`
-	UpdatedAt time.Time          `json:"updated_at"`
+	ID        string           `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name      string           `json:"name,omitempty" bson:"name,omitempty"`
+	Namespace string           `json:"namespace,omitempty" bson:"namespace,omitempty"`
+	KService  KnativeService   `json:"kservice,omitempty" bson:"kservice,omitempty"`
+	ConfigMap corev1.ConfigMap `json:"configmap,omitempty" bson:"configmap,omitempty"`
+	Secret    corev1.Secret    `json:"secret,omitempty" bson:"secret,omitempty"`
+	CreatedAt time.Time        `json:"created_at"`
+	UpdatedAt time.Time        `json:"updated_at"`
 }
 type KnativeService struct {
 	Config KnativeServiceConfig `json:"config,omitempty" bson:"config,omitempty"`

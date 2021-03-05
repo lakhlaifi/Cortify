@@ -7,6 +7,8 @@ import (
 	servingv1 "knative.dev/serving/pkg/apis/serving/v1"
 )
 
+type Service struct{}
+
 // Construct Knative Service
 func ConstructService(svc models.Service) (*servingv1.Service, error) {
 	service := servingv1.Service{
@@ -24,6 +26,7 @@ func ConstructService(svc models.Service) (*servingv1.Service, error) {
 			Annotations: svc.KService.Config.Annotations,
 		},
 	}
+
 	service.Spec.Template.Spec.Containers = svc.KService.Specs.Containers
 	return &service, nil
 }
