@@ -24,14 +24,8 @@ func (e *Environment) CreateEnvironment(ctx *gin.Context) {
 	environment.CreatedAt = time.Now()
 
 	// Construct Environment
-	env, err := dao.ConstructEnvironment(environment)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, models.Message{"Environment Cannot be constructed."})
-		log.Debug("[ERROR]: Construction Environment -", err)
-		return
-	}
-
-	err = dao.CreateEnvironment(env)
+	env := dao.ConstructEnvironment(environment)
+	err := dao.CreateEnvironment(env)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err)
 		ctx.JSON(http.StatusBadRequest, models.Message{"Environment Cannot be Created."})

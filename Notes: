@@ -8,6 +8,15 @@ Single ConfigMap per service:
     can hold Extra Environnement Variables + Files
     https://kubernetes.io/docs/concepts/configuration/configmap/
 
+NP:
+There are many reasons why you may chose to employ Kubernetes network policies:
+
+Ensure containers assigned to different environments (e.g. dev/staging/prod) cannot interfere with one another
+Isolate multi-tenant deployments
+Regulatory compliance
+Segregate teams
+Enforce best practices
+
 
 
 Secrets:
