@@ -1,1 +1,0 @@
-{"level":"debug","msg":"[ERROR]: KnativeService -admission webhook \"validation.webhook.serving.knative.dev\" denied the request: validation failed: missing field(s): spec.template.spec.containers[0].env[2].name","time":"2021-03-01T00:12:38+01:00"}
